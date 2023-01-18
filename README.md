@@ -6,11 +6,7 @@
 
 #### color grading shader for gamemaker that uses a table of lookup tables. its a lookup table table.
 
-```html
-<img align="left" width="100%" src="https://github.com/attic-stuff/lut-table/blob/main/timelapse.gif">
-```
-
-color grading is a pretty important aspect of your game's tech art pipeline. if you've ever tried a day/night cycle with blendmodes or drawing rectangles over the screen you know it can get ugly or slow fast. this is true of doing other kinds of grading too; you can make your game greyscale with a single line of glsl but you dont get the benefit of dramatic contrast and brightness adjustments. lut table is a shader that solves that problem—it samples a whole table full of color luts and allows you to interpolate between them like some kind of color correcting god.
+<img align="left" width="100%" src="https://github.com/attic-stuff/lut-table/blob/main/timelapse.gif">color grading is a pretty important aspect of your game's tech art pipeline. if you've ever tried a day/night cycle with blendmodes or drawing rectangles over the screen you know it can get ugly or slow fast. this is true of doing other kinds of grading too; you can make your game greyscale with a single line of glsl but you dont get the benefit of dramatic contrast and brightness adjustments. lut table is a shader that solves that problem—it samples a whole table full of color luts and allows you to interpolate between them like some kind of color correcting god.
 
 | sampler2d table                                              |
 | :----------------------------------------------------------- |
