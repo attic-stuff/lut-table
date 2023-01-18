@@ -40,4 +40,8 @@ it also must be given instructions. this shader is intended to be used for gradi
 | instructions.z is the **table mix** between A and B. if this is 0.5, then we mix 50% of B into A. |
 | instructions.w is the **frame mix**; which is how much we mix the final table mix with the scene. if this is .75, then we are mixing 75% of the table mix into the frame. |
 
-you can however, use this shader to just do a single mix and uncomplex things. by setting A to the lut index you want to use, B to 0, table mix to 0, and frame mix to 1, you will just do regular color grading!
+### the rules
+
+1. your texture of multiple lookup tables must be a power of two size. that means it can be 256x16, 1024x4096, etc. 
+2. your lookup table table must be on a separate texture page. you can generate these dynamically with a surface though, and just pass the surface texture as the sampler using shader_get_surface.
+3. you can use this shader to just do a single mix and/or uncomplex things. by setting A to the lut index you want to use, B to 0, table mix to 0, and frame mix to 1, you will just do regular color grading!
