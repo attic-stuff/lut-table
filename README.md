@@ -1,12 +1,22 @@
-<p align="center">
-  <img src="https://github.com/attic-stuff/lut-table/blob/main/spincube.gif" />
-</p>
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/spincube.gif"/></p>
 
 # lut table
 
 #### color grading shader for gamemaker that uses a table of lookup tables. its a lookup table table.
 
-<img align="left" width="30%" src="https://github.com/attic-stuff/lut-table/blob/main/timelapse.gif">color grading is a pretty important aspect of your game's tech art pipeline. if you've ever tried a day/night cycle with blendmodes or drawing rectangles over the screen you know it can get ugly or slow fast. this is true of doing other kinds of grading too; you can make your game greyscale with a single line of glsl but you dont get the benefit of dramatic contrast and brightness adjustments. lut table is a shader that solves that problem—it samples a whole table full of color luts and allows you to interpolate between them like some kind of color correcting god.
+color grading is a pretty important aspect of your game's tech art pipeline. if you've ever tried a day/night cycle with blendmodes or drawing rectangles over the screen you know it can get ugly or slow fast. this is true of doing other kinds of grading too; you can make your game greyscale with a single line of glsl but you dont get the benefit of dramatic contrast and brightness adjustments thattaway. color grading with luts are just a very visual and easy way to get that game lookin so good. *lut table* (loot table) is a shader that solves that problem—it samples a whole table full of color luts and allows you to interpolate between two of them like some kind of color correcting galactic hero. the idea comes from how i believe [graveyard keeper](https://www.gamedeveloper.com/programming/graveyard-keeper-how-the-graphics-effects-are-made) uses color luts for its day night cycle, and you can [click here](https://i.imgur.com/QSgGEdX.mp4) to see a very rubbish quality video of how i use it in my own game's day/night cycle.
+
+#### whats a ding dong color lut?
+
+lut stands for lookup table. like when you need to look up some information in a book or on a calendar, you can do the same thing using colors in your game. matter of fact, imagine every color in your game is hiding somewhere in that spinnin' cube of pretty colors up there. you can go "alright my blue is in this corner, so what if i use a different cube and in that corner i will put yellow." we don't use cubes for this though because thats black magic; what we do instead of slice that cube up into our lut:
+
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/neutral16x.png"/></p>
+
+that's a neutral lut though; its all the colors in our game already. if we graded our frame with this it would look normal. but what if we graded it with this one:
+
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/16xsepia.png"/></p>
+
+then our game would be sepia toned. but not just mathematically sepia'ed up: i hand made this lookup table to have more contrast and be a little pretty than just manually mixing brown into the frame with math!
 
 | sampler2d table                                              |
 | :----------------------------------------------------------- |
@@ -23,101 +33,3 @@
 | instructions.y is table **B** to use for the color grading.  |
 | instructions.z is the **table mix** between A and B.         |
 | instructions.w is the **frame mix**; which is how much we mix the final table mix with the scene |
-
-### examples
-
-##### example 1: combining two lookup tables for a day/night cycle
-
-in the project file you will find a pre made lut table, and on it there is 9 luts. these are zero-index (first one is 0 not 1) 0 through 8 right? well if we use lut 3 and lut 8 we can make a pretty cool day to night timer.
-```js
-/* C R E A T E EVENT */
-application_surface_draw_enable(false);
-
-//lets call our time minute and day. 18000 frames is about five minutes
-//and are gunna count minutes until minutes is equal to day
-day = 18000;
-minute = 0;
-
-//lets setup some uniforms
-uniforms = array_create(3);
-uniforms[0] = shader_get_sampler_index(pp_luttable, "table");
-uniforms[1] = shader_get_uniform(pp_luttable, "parameters");
-uniforms[2] = shader_get_uniform(pp_luttable, "instructions");
-//x16 is the name of our lut table
-texture = sprite_get_texture(x16, 0);
-//it uses 16x16 slices of color
-resolution = 16;
-//this has to be the to
-tables = sprite_get_height(x16) / resolution;
-
-//set up our instructions
-A = 3;
-B = 8;
-//initially table A should be the only color grading present
-//and we will change this over time to make it night
-tablemix = 0.0;
-framemix = 1.0;
-
-/* S T E P EVENT */
-//count minutes
-if (minute < day) {
-    minute += 1;
-}
-//figure out how much of the day has passed
-var p = minute / day;
-//this percentage is how much we mix table B into table A
-//so when 0 minutes has passed we will be fully table A, when minutes is
-//9000 then we will be 50% A and 50% B, etc etc
-tablemix = p;
-
-/* P O S T  D R A W EVENT */
-shader_set(pp_luttable) {
-	texture_set_stage(u[0], texture);
-	shader_set_uniform_f(u[1], resolution, tables);
-	shader_set_uniform_f(u[2], A, B, tablemix, framemix);
-	gpu_set_tex_filter_ext(u[0], true);
-	draw_surface(application_surface, 0, 0);
-	gpu_set_tex_filter_ext(u[0], false);
-	shader_reset();
-}
-```
-
-##### example 2, using a single lut to color grade a surface
-
-maybe you want to draw a bunch of cool stuff to a surface and give it a %50 color grade using just a single table
-
-```js
-/* C R E A T E EVENT */
-application_surface_draw_enable(false);
-
-//lets setup some uniforms
-uniforms = array_create(3);
-uniforms[0] = shader_get_sampler_index(pp_luttable, "table");
-uniforms[1] = shader_get_uniform(pp_luttable, "parameters");
-uniforms[2] = shader_get_uniform(pp_luttable, "instructions");
-//x16 is the name of our lut table
-texture = sprite_get_texture(x16, 0);
-//it uses 16x16 slices of color
-resolution = 16;
-//this has to be the to
-tables = sprite_get_height(x16) / resolution;
-
-//set up our instructions
-A = 2;
-B = 2;
-//set A and B to the same index, then set the frame mix to 50%.
-tablemix = 1.0;
-framemix = 0.5;
-
-/* P O S T  D R A W EVENT */
-shader_set(pp_luttable) {
-	texture_set_stage(u[0], texture);
-	shader_set_uniform_f(u[1], resolution, tables);
-	shader_set_uniform_f(u[2], A, B, tablemix, framemix);
-	gpu_set_tex_filter_ext(u[0], true);
-	draw_surface(application_surface, 0, 0);
-	gpu_set_tex_filter_ext(u[0], false);
-	shader_reset();
-}
-```
-
