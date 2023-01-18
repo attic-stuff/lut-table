@@ -1,8 +1,10 @@
 # lut table
 
-### color grading with a look up table table for all the cutie gamemakers out there
+<p align="center">
+  <img src="https://github.com/attic-stuff/lut-table/blob/main/spincube.gif" />
+</p>
 
-![spincube](https://github.com/attic-stuff/lut-table/blob/main/spincube.gif)
+
 
 imagine that every color in your game is hiding in this pretty color cube. its got all your colors but one day you wake up and go "dang i wish i had different colors in my game" or "hot dang i need to make it night time in my game but i dont wanna make a separate tileset :(." well you are in luck because this is a common riddle to solve in games and there are several solutions—we're going to skip past every single one and stop at using a color lookup table. if we sliced that cube up and looked at its parts, it looks like this:
 
