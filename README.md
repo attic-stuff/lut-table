@@ -2,19 +2,19 @@
 
 ### color grading with a look up table table for all the cutie gamemakers out there
 
-![spincube](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\spincube.gif)
+![spincube](https://github.com/attic-stuff/lut-table/blob/main/spincube.gif)
 
 imagine that every color in your game is hiding in this pretty color cube. its got all your colors but one day you wake up and go "dang i wish i had different colors in my game" or "hot dang i need to make it night time in my game but i dont wanna make a separate tileset :(." well you are in luck because this is a common riddle to solve in games and there are several solutions—we're going to skip past every single one and stop at using a color lookup table. if we sliced that cube up and looked at its parts, it looks like this:
 
-![neutral16x](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\neutral16x.png)
+![neutral16x](https://github.com/attic-stuff/lut-table/blob/main/neutral16x.png)
 
 a neutral lookup table. if we took this table and told a shader to make your game use these colors, your game would not change. but what if we told it to use this one?
 
-![16xgraded](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\16xgraded.png)
+![16xgraded](https://github.com/attic-stuff/lut-table/blob/main/16xgraded.png)
 
 now your game will be like, way cooler looking. what if we were like "hey shaders make my game go from morning to night" then we could use several color lookup tables and make the game look like this:
 
-![timelapse](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\timelapse.gif)
+![timelapse](https://github.com/attic-stuff/lut-table/blob/main/timelapse.gif)
 
 we choose different tables based on the time of day, and color grade the game by interpolating between those tables. pretty neat huh? i got the idea from graveyard keeper. well there is a shader in this repo you can use to get this cool effect.
 
@@ -23,16 +23,16 @@ we choose different tables based on the time of day, and color grade the game by
 the way it works is as a post processing effect; as in you grade a whole frame rather than a single sprite or texture. you send the shader a texture of look up tables, tell it which two you want to use, how much you would like to mix those two corrections and then how much you would like to mix that color grading into the frame. lets look at the uniforms first and then some examples on how to use it.
 
 | sampler2d table                                              |
-| ------------------------------------------------------------ |
+| :----------------------------------------------------------- |
 | this is the lookup table table. it must be on its own texture page, and it must be a power of two sized texture. that means if you have seven tables, your texture must be sized 512x512. this seems bad, to have a lot of blank space. its fine. |
 
 | vec2 parameters                                              |
-| ------------------------------------------------------------ |
+| :----------------------------------------------------------- |
 | parameters.x is the **resolution** of your look up table. we've been looking at luts with are resolution of 16, meaning each slice of our cube is 16x16 pixels. this shader supports luts with resolutions of 16, 32, and 64 |
 | parameters.y is the **number of tables** on the table.  this is not the number of present luts it is the number of possible luts. it should always be your (power of two) lut table height divided by the resolution. |
 
 | vec4 instructions                                            |
-| ------------------------------------------------------------ |
+| :----------------------------------------------------------- |
 | instructions.x is table **A** to use for the color grading.  |
 | instructions.y is table **B** to use for the color grading.  |
 | instructions.z is the **table mix** between A and B.         |
