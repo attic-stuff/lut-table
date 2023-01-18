@@ -10,11 +10,11 @@ color grading is a pretty important aspect of your game's tech art pipeline. if 
 
 lut stands for lookup table. like when you need to look up some information in a book or on a calendar, you can do the same thing using colors in your game. matter of fact, imagine every color in your game is hiding somewhere in that spinnin' cube of pretty colors up there. you can go "alright my blue is in this corner, so what if i use a different cube and in that corner i will put yellow." we don't use cubes for this though because thats black magic; what we do instead of slice that cube up into our lut:
 
-<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/neutral16x.png"/></p>
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20textures/neutral16x.png"/></p>
 
 that's a neutral lut though; its all the colors in our game already. if we graded our frame with this it would look normal. but what if we graded it with this one:
 
-<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/16xsepia.png"/></p>
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20textures/16xsepia.png"/></p>
 
 then our game would be sepia toned. but not just mathematically sepia'ed up: i hand made this lookup table to have more contrast and be a little prettier than just manually mixing brown into the frame with math!
 
