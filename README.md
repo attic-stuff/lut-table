@@ -1,28 +1,16 @@
-# lut table
-
 <p align="center">
   <img src="https://github.com/attic-stuff/lut-table/blob/main/spincube.gif" />
 </p>
 
+# lut table
 
+#### color grading shader for gamemaker that uses a table of lookup tables. its a lookup table table.
 
-imagine that every color in your game is hiding in this pretty color cube. its got all your colors but one day you wake up and go "dang i wish i had different colors in my game" or "hot dang i need to make it night time in my game but i dont wanna make a separate tileset :(." well you are in luck because this is a common riddle to solve in games and there are several solutions—we're going to skip past every single one and stop at using a color lookup table. if we sliced that cube up and looked at its parts, it looks like this:
+```html
+<img align="left" width="100%" src="https://github.com/attic-stuff/lut-table/blob/main/timelapse.gif">
+```
 
-![neutral16x](https://github.com/attic-stuff/lut-table/blob/main/neutral16x.png)
-
-a neutral lookup table. if we took this table and told a shader to make your game use these colors, your game would not change. but what if we told it to use this one?
-
-![16xgraded](https://github.com/attic-stuff/lut-table/blob/main/16xgraded.png)
-
-now your game will be like, way cooler looking. what if we were like "hey shaders make my game go from morning to night" then we could use several color lookup tables and make the game look like this:
-
-![timelapse](https://github.com/attic-stuff/lut-table/blob/main/timelapse.gif)
-
-we choose different tables based on the time of day, and color grade the game by interpolating between those tables. pretty neat huh? i got the idea from graveyard keeper. well there is a shader in this repo you can use to get this cool effect.
-
-### how do i do this?
-
-the way it works is as a post processing effect; as in you grade a whole frame rather than a single sprite or texture. you send the shader a texture of look up tables, tell it which two you want to use, how much you would like to mix those two corrections and then how much you would like to mix that color grading into the frame. lets look at the uniforms first and then some examples on how to use it.
+color grading is a pretty important aspect of your game's tech art pipeline. if you've ever tried a day/night cycle with blendmodes or drawing rectangles over the screen you know it can get ugly or slow fast. this is true of doing other kinds of grading too; you can make your game greyscale with a single line of glsl but you dont get the benefit of dramatic contrast and brightness adjustments. lut table is a shader that solves that problem—it samples a whole table full of color luts and allows you to interpolate between them like some kind of color correcting god.
 
 | sampler2d table                                              |
 | :----------------------------------------------------------- |
