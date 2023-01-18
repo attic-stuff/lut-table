@@ -1,20 +1,137 @@
 # lut table
 
-### lookup table color grading for all the cute gamemakers out there
+### color grading with a look up table table for all the cutie gamemakers out there
 
-![spincube](https://github.com/attic-stuff/lut-table/blob/main/spincube.gif)
+![spincube](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\spincube.gif)
 
-imagine every possible color in your game is stashed in this cool spinning cube of pretty candy colors. but then you're like "well heck i wish my game actually had different colors" but you were also like "aw crap i donut have time to recolor my whole ass game." the solution to that problem is color grading and palette swapping. for small things, palette swapping is pretty great and useful, you just say "okay game replace all black pixels with green pixels" and be done with it. for more complex color grading you need to use either a bunch of math (yuck!) or a lookup table. want to make your game look like its from the 70s? maybe greyscale but with cool contrast? what about just doing a regular-ass, good ol' fashioned day-to-night cycle like i do in this gamemaker project i been working on. i got the idea from [graveyard keeper](www.gamedeveloper.com/programming/graveyard-keeper-how-the-graphics-effects-are-made), btw and it looks like this:
+imagine that every color in your game is hiding in this pretty color cube. its got all your colors but one day you wake up and go "dang i wish i had different colors in my game" or "hot dang i need to make it night time in my game but i dont wanna make a separate tileset :(." well you are in luck because this is a common riddle to solve in games and there are several solutions—we're going to skip past every single one and stop at using a color lookup table. if we sliced that cube up and looked at its parts, it looks like this:
 
-[![timelapse](https://github.com/attic-stuff/lut-table/blob/main/timelapse.gif)](https://i.imgur.com/QSgGEdX.mp4)
+![neutral16x](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\neutral16x.png)
 
-you can click this low quality gif to see a bigger low quality gif. at any rate, this repo has a shader that allows you to do this pretty easy. its called **pp_luttable** (pronounced loot table, like as in video game reward feedback loop things) and it allows you to color grade your game with a lookup table of color lookup tables. its a lookup table table. since we cannot really use a spinning cube of colors to change the color of our game we have to slice that guy up into something that looks like this neutral look up table:
+a neutral lookup table. if we took this table and told a shader to make your game use these colors, your game would not change. but what if we told it to use this one?
 
-![neutral16x](https://github.com/attic-stuff/lut-table/blob/main/neutral16x.png)
+![16xgraded](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\16xgraded.png)
 
-its called neutral because if you used it to color correct your game, your game would look exactly the same! and also there's just one there. what we want is a whole table of tables! more like this:
+now your game will be like, way cooler looking. what if we were like "hey shaders make my game go from morning to night" then we could use several color lookup tables and make the game look like this:
 
-![16xtable](https://github.com/attic-stuff/lut-table/blob/main/16xtable.png)
+![timelapse](C:\Users\cecil\Desktop\work\GM REPOs\lut-table\timelapse.gif)
 
-look at this sucker we got neutral, cool stuff, grey scale, sepia, inverted, and even some darker stuff. with plenty of room to add more! dang we're about to be in color grading dog heaven. not only do we have more options on a table of tables, its more performant to quickly swap through them from a single texture _and_ we can easily index which tables we want to interpolate thru. 
+we choose different tables based on the time of day, and color grade the game by interpolating between those tables. pretty neat huh? i got the idea from graveyard keeper. well there is a shader in this repo you can use to get this cool effect.
+
+### how do i do this?
+
+the way it works is as a post processing effect; as in you grade a whole frame rather than a single sprite or texture. you send the shader a texture of look up tables, tell it which two you want to use, how much you would like to mix those two corrections and then how much you would like to mix that color grading into the frame. lets look at the uniforms first and then some examples on how to use it.
+
+| sampler2d table                                              |
+| ------------------------------------------------------------ |
+| this is the lookup table table. it must be on its own texture page, and it must be a power of two sized texture. that means if you have seven tables, your texture must be sized 512x512. this seems bad, to have a lot of blank space. its fine. |
+
+| vec2 parameters                                              |
+| ------------------------------------------------------------ |
+| parameters.x is the **resolution** of your look up table. we've been looking at luts with are resolution of 16, meaning each slice of our cube is 16x16 pixels. this shader supports luts with resolutions of 16, 32, and 64 |
+| parameters.y is the **number of tables** on the table.  this is not the number of present luts it is the number of possible luts. it should always be your (power of two) lut table height divided by the resolution. |
+
+| vec4 instructions                                            |
+| ------------------------------------------------------------ |
+| instructions.x is table **A** to use for the color grading.  |
+| instructions.y is table **B** to use for the color grading.  |
+| instructions.z is the **table mix** between A and B.         |
+| instructions.w is the **frame mix**; which is how much we mix the final table mix with the scene |
+
+### examples
+
+##### example 1: combining two lookup tables for a day/night cycle
+
+in the project file you will find a pre made lut table, and on it there is 9 luts. these are zero-index (first one is 0 not 1) 0 through 8 right? well if we use lut 3 and lut 8 we can make a pretty cool day to night timer.
+```js
+/* C R E A T E EVENT */
+application_surface_draw_enable(false);
+
+//lets call our time minute and day. 18000 frames is about five minutes
+//and are gunna count minutes until minutes is equal to day
+day = 18000;
+minute = 0;
+
+//lets setup some uniforms
+uniforms = array_create(3);
+uniforms[0] = shader_get_sampler_index(pp_luttable, "table");
+uniforms[1] = shader_get_uniform(pp_luttable, "parameters");
+uniforms[2] = shader_get_uniform(pp_luttable, "instructions");
+//x16 is the name of our lut table
+texture = sprite_get_texture(x16, 0);
+//it uses 16x16 slices of color
+resolution = 16;
+//this has to be the to
+tables = sprite_get_height(x16) / resolution;
+
+//set up our instructions
+A = 3;
+B = 8;
+//initially table A should be the only color grading present
+//and we will change this over time to make it night
+tablemix = 0.0;
+framemix = 1.0;
+
+/* S T E P EVENT */
+//count minutes
+if (minute < day) {
+    minute += 1;
+}
+//figure out how much of the day has passed
+var p = minute / day;
+//this percentage is how much we mix table B into table A
+//so when 0 minutes has passed we will be fully table A, when minutes is
+//9000 then we will be 50% A and 50% B, etc etc
+tablemix = p;
+
+/* P O S T  D R A W EVENT */
+shader_set(pp_luttable) {
+	texture_set_stage(u[0], texture);
+	shader_set_uniform_f(u[1], resolution, tables);
+	shader_set_uniform_f(u[2], A, B, tablemix, framemix);
+	gpu_set_tex_filter_ext(u[0], true);
+	draw_surface(application_surface, 0, 0);
+	gpu_set_tex_filter_ext(u[0], false);
+	shader_reset();
+}
+```
+
+##### example 2, using a single lut to color grade a surface
+
+maybe you want to draw a bunch of cool stuff to a surface and give it a %50 color grade using just a single table
+
+```js
+/* C R E A T E EVENT */
+application_surface_draw_enable(false);
+
+//lets setup some uniforms
+uniforms = array_create(3);
+uniforms[0] = shader_get_sampler_index(pp_luttable, "table");
+uniforms[1] = shader_get_uniform(pp_luttable, "parameters");
+uniforms[2] = shader_get_uniform(pp_luttable, "instructions");
+//x16 is the name of our lut table
+texture = sprite_get_texture(x16, 0);
+//it uses 16x16 slices of color
+resolution = 16;
+//this has to be the to
+tables = sprite_get_height(x16) / resolution;
+
+//set up our instructions
+A = 2;
+B = 2;
+//set A and B to the same index, then set the frame mix to 50%.
+tablemix = 1.0;
+framemix = 0.5;
+
+/* P O S T  D R A W EVENT */
+shader_set(pp_luttable) {
+	texture_set_stage(u[0], texture);
+	shader_set_uniform_f(u[1], resolution, tables);
+	shader_set_uniform_f(u[2], A, B, tablemix, framemix);
+	gpu_set_tex_filter_ext(u[0], true);
+	draw_surface(application_surface, 0, 0);
+	gpu_set_tex_filter_ext(u[0], false);
+	shader_reset();
+}
+```
 
