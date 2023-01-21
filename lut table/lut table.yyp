@@ -1,0 +1,46 @@
+{
+  "resourceType": "GMProject",
+  "resourceVersion": "1.6",
+  "name": "lut table",
+  "resources": [
+    {"id":{"name":"backend","path":"scripts/backend/backend.yy",},"order":8,},
+    {"id":{"name":"x32","path":"sprites/x32/x32.yy",},"order":6,},
+    {"id":{"name":"goodtimes","path":"objects/goodtimes/goodtimes.yy",},"order":4,},
+    {"id":{"name":"pp_luttable","path":"shaders/pp_luttable/pp_luttable.yy",},"order":2,},
+    {"id":{"name":"font","path":"fonts/font/font.yy",},"order":7,},
+    {"id":{"name":"x16","path":"sprites/x16/x16.yy",},"order":5,},
+    {"id":{"name":"picture","path":"sprites/picture/picture.yy",},"order":1,},
+    {"id":{"name":"pretty","path":"rooms/pretty/pretty.yy",},"order":0,},
+  ],
+  "Options": [
+    {"name":"Android","path":"options/android/options_android.yy",},
+    {"name":"HTML5","path":"options/html5/options_html5.yy",},
+    {"name":"iOS","path":"options/ios/options_ios.yy",},
+    {"name":"Linux","path":"options/linux/options_linux.yy",},
+    {"name":"macOS","path":"options/mac/options_mac.yy",},
+    {"name":"tvOS","path":"options/tvos/options_tvos.yy",},
+    {"name":"Windows","path":"options/windows/options_windows.yy",},
+    {"name":"operagx","path":"options/operagx/options_operagx.yy",},
+    {"name":"Main","path":"options/main/options_main.yy",},
+  ],
+  "defaultScriptType": 1,
+  "isEcma": false,
+  "configs": {
+    "name": "Default",
+    "children": [],
+  },
+  "RoomOrderNodes": [
+    {"roomId":{"name":"pretty","path":"rooms/pretty/pretty.yy",},},
+  ],
+  "Folders": [],
+  "AudioGroups": [
+    {"resourceType":"GMAudioGroup","resourceVersion":"1.3","name":"audiogroup_default","targets":-1,},
+  ],
+  "TextureGroups": [
+    {"resourceType":"GMTextureGroup","resourceVersion":"1.3","name":"Default","isScaled":true,"compressFormat":"bz2","loadType":"default","directory":"","autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,},
+  ],
+  "IncludedFiles": [],
+  "MetaData": {
+    "IDEVersion": "2022.11.1.56",
+  },
+}

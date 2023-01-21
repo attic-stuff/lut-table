@@ -1,0 +1,13 @@
+{
+  "ResourceOrderSettings": [
+    {"name":"backend","path":"scripts/backend/backend.yy","order":8,},
+    {"name":"x32","path":"sprites/x32/x32.yy","order":6,},
+    {"name":"goodtimes","path":"objects/goodtimes/goodtimes.yy","order":4,},
+    {"name":"pp_luttable","path":"shaders/pp_luttable/pp_luttable.yy","order":2,},
+    {"name":"font","path":"fonts/font/font.yy","order":7,},
+    {"name":"x16","path":"sprites/x16/x16.yy","order":5,},
+    {"name":"picture","path":"sprites/picture/picture.yy","order":1,},
+    {"name":"Script2","path":"scripts/Script2/Script2.yy","order":9,},
+  ],
+  "FolderOrderSettings": [],
+}
