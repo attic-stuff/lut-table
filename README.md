@@ -130,15 +130,15 @@ and thats pretty much it!
 
 if you look hard enough, you will find plenty of resources for making your own lut tables in gimp or photoshop or aseprite or whatever cool image thing you use. personally i use affinity photo. what i do is open a neutral screenshot of my game, then on another layer i put a neutral lut. like this:
 
-<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lutguide/a.png"/></p>
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20guide/a.png"/></p>
 
 then i use the adjustments tool to color correct the scene. in this one i wanted to make a bit of a crepuscular color so i saturated it the scene a bit with the vibrance tool, pushed the white balance to be a bit warmer, then tossed a dusty purple lens filter over the whole thing. that got me this:
 
-<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lutguide/b.png"/></p>
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20guide/b.png"/></p>
 
 when its looking real good i merge the visible layers so that all of those color corrections are applied to the neutral lut table, so i can then cut and paste the lut from that flattened image. the final result is this:
 
-<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lutguide/c.png"/></p>
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20guide/c.png"/></p>
 
 then you can copy that to your table of tables and be done with it. the end.
 
