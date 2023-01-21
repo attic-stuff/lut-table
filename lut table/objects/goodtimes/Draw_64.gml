@@ -35,7 +35,7 @@ if (sidebyeside == false) {
 }
 
 
-var text = "table [a]: " + string(A) + "\ntable [b]: " + string(B) + "\n[t]able mix: " + string(tablemix) + "\n[f]rame mix: " + string(framemix);
+var text = "to change something hold the letter in  the brackets and scroll the mousewheel.\ntable [a]: " + string(A) + "\ntable [b]: " + string(B) + "\n[t]able mix: " + string(tablemix) + "\n[f]rame mix: " + string(framemix);
 draw_text_ext_color(2, -3, text, 9, 128, #080808, #080808, #080808, #080808, 1);
 draw_text_ext_color(2, -4, text, 9, 128, #dbd2b8, #dbd2b8, #dbd2b8, #dbd2b8, 1);
 

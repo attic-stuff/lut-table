@@ -141,3 +141,7 @@ when its looking real good i merge the visible layers so that all of those color
 <p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lutguide/c.png"/></p>
 
 the end.
+
+### how to use the example
+
+launch the project. hold A and scroll your mousewheel to cycle through luts for index A, hold B and scroll to cycle through luts for index B. holding T or F and scrolling the mousewheel will adjust the table and frame mixes respectively.
