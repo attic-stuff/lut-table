@@ -51,7 +51,7 @@ it also must be given instructions. this shader is intended to be used for gradi
 
 image we have a table of luts, and we want to interpolate A and B to do a day night transition across roughly 1 minute.
 
-<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20textures/16xsepia.png"/></p>
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20textures/exampletable.png"/></p>
 
 if you have an object handling your camera or window, it would be best to do this operation that guy. the create event for whatever you use though, it should include this stuff:
 
