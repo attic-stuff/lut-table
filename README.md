@@ -18,6 +18,12 @@ that's a neutral lut though; its all the colors in our game already. if we grade
 
 then our game would be sepia toned. but not just mathematically sepia'ed up: i hand made this lookup table to have more contrast and be a little prettier than just manually mixing brown into the frame with math!
 
+and this, this is a table of luts. this is the table of tables and the reason we have this shader to begin with:
+
+<p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lut%20table/sprites/x16/2271929c-2562-4ff0-9be4-87666920492a.png"/></p>
+
+why a table of tables? well with regard to gamemaker's current rendering api limitations, you can only have so many samplers per shader set and using many separate textures for lut stuff can cause swaps/breaks you don't really need. so using a table of table is an ease-of-use thing and a slight optimization thing.
+
 ### how 2 use this sucker
 
 there is an example project in a yyz that you can play with to learn how to use the pp_luttable shader. it takes a table of luts as a texture, as well as a vec2 of parameters for that texture:
