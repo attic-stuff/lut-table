@@ -140,7 +140,7 @@ when its looking real good i merge the visible layers so that all of those color
 
 <p align="center"><img src="https://github.com/attic-stuff/lut-table/blob/main/lutguide/c.png"/></p>
 
-the end.
+then you can copy that to your table of tables and be done with it. the end.
 
 ### how to use the example
 
